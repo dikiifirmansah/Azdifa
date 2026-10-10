@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Warung Azdifa</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2220%22 fill=%22%23E07A2E%22/><text x=%2250%22 y=%2268%22 font-size=%2258%22 text-anchor=%22middle%22 fill=%22white%22 font-family=%22sans-serif%22>W</text></svg>">
+<link rel="manifest" href="manifest.json">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+  <div style="display:flex;align-items:center;gap:10px;min-width:0;">
+    <div id="headerLogoBox"><svg class="header-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l1-5h16l1 5"/><path d="M3 9a2 2 0 004 0 2 2 0 004 0 2 2 0 004 0 2 2 0 004 0"/><path d="M4 9v9a1 1 0 001 1h14a1 1 0 001-1V9"/><path d="M9 21v-6h6v6"/></svg></div>
+    <div style="min-width:0;">
+      <h1 id="headerStoreName">Warung Azdifa</h1>
+      <div class="sub" id="headerStoreBio">Kasir sederhana</div>
+    </div>
+  </div>
+  <div style="text-align:right;flex:0 0 auto;">
+    <div id="headerClockTime" style="font-size:15px;font-weight:700;color:#fff;"></div>
+    <div id="headerClockDate" style="font-size:10px;color:#fff;opacity:.85;"></div>
+  </div>
+</header>
+
+<main>
+  <section class="view active" id="view-kasir">
+    <div class="chips" id="catChips"></div>
+    <div class="search-box">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input id="searchProd" placeholder="Cari produk...">
+    </div>
+    <div class="prod-grid" id="prodGrid"></div>
+  </section>
+
+  <section class="view" id="view-stok">
+    <div class="search-box">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input id="searchStok" placeholder="Cari produk...">
+    </div>
+    <div class="card">
+      <h2>Daftar Produk</h2>
+      <div id="stokList"></div>
+    </div>
+  </section>
+
+  <section class="view" id="view-hutang">
+    <div class="card">
+      <div class="sum-label">Total Hutang Pelanggan</div>
+      <div class="sum-num" id="totalHutang">Rp 0</div>
+    </div>
+    <div class="search-box">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input id="searchHutang" placeholder="Cari nama pelanggan...">
+    </div>
+    <div class="card">
+      <h2>Daftar Penghutang</h2>
+      <div id="debtList"></div>
+    </div>
+  </section>
+
+  <section class="view" id="view-laporan">
+    <div style="display:flex;gap:8px;margin-bottom:12px;">
+      <div class="search-box" style="flex:1;margin-bottom:0;">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input id="laporanSearchProduct" placeholder="Cari transaksi berisi produk...">
+      </div>
+      <button class="filter-btn" id="btnOpenLaporanFilter" type="button" aria-label="Filter">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg>
+        <span class="filter-dot hidden" id="laporanFilterDot"></span>
+      </button>
+    </div>
+    <div class="card">
+      <div style="display:flex;gap:16px;">
+        <div style="flex:1;">
+          <div class="sum-label" id="laporanOmzetLabel">Omzet (Hari Ini)</div>
+          <div class="sum-num" id="todayTotal">Rp 0</div>
+        </div>
+        <div style="flex:1;">
+          <div class="sum-label" id="laporanProfitLabel">Untung Kotor</div>
+          <div class="sum-num" id="todayProfit" style="color:var(--green);">Rp 0</div>
+        </div>
+      </div>
+      <div class="sum-label" id="todayCount" style="margin-top:6px;">0 transaksi</div>
+    </div>
+    <div class="card">
+      <h2>7 Hari Terakhir</h2>
+      <div class="bar-chart" id="weekChart"></div>
+    </div>
+    <div class="card">
+      <h2>Produk Terlaris</h2>
+      <div id="topProdList"></div>
+    </div>
+    <div class="card">
+      <h2>Riwayat Transaksi</h2>
+      <div id="historyList"></div>
+    </div>
+  </section>
+
+  <section class="view" id="view-pengaturan">
+    <div class="settings-group-label">Profil</div>
+    <div class="card" style="text-align:center;">
+      <div class="profile-logo-wrap">
+        <img id="settingLogoPreview" class="profile-logo-img hidden">
+        <div id="settingLogoPlaceholder" class="profile-logo-placeholder" style="background-image:url('data:image/png;base64,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');background-size:cover;background-position:center;"></div>
+        <label class="profile-logo-cam" for="settingLogoInput"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z"/><circle cx="12" cy="13" r="4"/></svg></label>
+        <input type="file" id="settingLogoInput" accept="image/*" class="hidden-file-input">
+      </div>
+      <button class="link-btn hidden" id="btnRemoveLogo" type="button" style="margin:0 auto 10px;">Hapus Logo</button>
+      <label style="text-align:left;">Nama Toko</label>
+      <input id="settingStoreName" placeholder="Nama toko">
+      <label style="text-align:left;">Bio</label>
+      <input id="settingStoreBio" placeholder="Tagline singkat" style="margin-bottom:0;">
+    </div>
+
+    <div class="settings-group-label">Kustomisasi</div>
+    <div class="settings-row" id="rowManageCategory">
+      <div class="settings-row-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41L13.42 20.58a2 2 0 01-2.83 0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg></div>
+      <div class="settings-row-text"><div class="t">Kelola Kategori</div><div class="s">Tambah, ubah, atau hapus kategori produk</div></div>
+      <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+    </div>
+
+    <div class="settings-group-label">Data</div>
+    <div class="settings-row" id="rowBackupRestore">
+      <div class="settings-row-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg></div>
+      <div class="settings-row-text"><div class="t">Backup & Restore</div><div class="s">Ekspor data atau pulihkan dari backup</div></div>
+      <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+    </div>
+    <div class="settings-row" id="rowDeleteData">
+      <div class="settings-row-icon danger"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/></svg></div>
+      <div class="settings-row-text"><div class="t">Hapus Data</div><div class="s">Hapus data tertentu secara permanen</div></div>
+      <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+    </div>
+  </section>
+</main>
+
+<nav class="tabs">
+  <button class="tab-btn active" data-view="kasir">
+    <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6"/></svg>
+    Kasir</button>
+  <button class="tab-btn" data-view="stok">
+    <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8l-9-5-9 5 9 5 9-5z"/><path d="M3 8v8l9 5 9-5V8"/><path d="M12 13v8"/></svg>
+    Stok</button>
+  <button class="tab-btn" data-view="hutang">
+    <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
+    Hutang</button>
+  <button class="tab-btn" data-view="laporan">
+    <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+    Laporan</button>
+  <button class="tab-btn" data-view="pengaturan">
+    <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 11-2.83 2.83l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 11-2.83-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 112.83-2.83l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 112.83 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+    Pengaturan</button>
+</nav>
+
+<div class="modal-bg" id="cartModalBg">
+  <div class="modal">
+    <button class="modal-x" id="btnCloseCart" aria-label="Tutup"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+    <h3 class="with-x">Keranjang</h3>
+    <div id="cartItems"></div>
+    <div class="total-row"><span>Total</span><span class="num" id="cartTotal">Rp 0</span></div>
+    <div style="margin-top:12px;">
+      <label>Metode Bayar</label>
+      <div class="pay-opts">
+        <div class="pay-opt active" data-pay="tunai">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="12" cy="12" r="3"/><path d="M6 10v4M18 10v4"/></svg>
+          Tunai</div>
+        <div class="pay-opt" data-pay="qris">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+          QRIS</div>
+        <div class="pay-opt" data-pay="hutang">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
+          Hutang</div>
+      </div>
+      <div id="cashBox">
+        <label>Uang Diterima</label>
+        <input id="cashGiven" type="number" inputmode="numeric" placeholder="0">
+        <div class="sum-label">Kembalian: <strong id="changeAmt">Rp 0</strong></div>
+      </div>
+      <div id="debtBox" class="hidden">
+        <label>Pelanggan</label>
+        <input type="hidden" id="debtCustomerValue">
+        <div class="field-select placeholder" id="debtCustomerBtn">
+          <span id="debtCustomerLabel">— Pilih pelanggan —</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+        <input id="debtNewName" placeholder="Nama pelanggan baru" class="hidden">
+      </div>
+    </div>
+    <button class="btn" id="btnCheckout">Selesaikan Transaksi</button>
+    <button class="btn danger" id="btnCancelCart">Batalkan Keranjang</button>
+  </div>
+</div>
+
+<div class="modal-bg" id="opnameModalBg">
+  <div class="modal">
+    <div class="opname-header-row">
+      <h3 style="margin:0;">Stock Opname</h3>
+      <button class="link-btn" id="btnOpnameHistory" type="button">Riwayat</button>
+    </div>
+    <div class="opname-progress" id="opnameProgress"></div>
+
+    <div id="opnameStepView">
+      <div class="card">
+        <div class="opname-cat-label" id="opnameStepCategory"></div>
+        <div class="opname-step-head">
+          <div id="opnameStepThumb"></div>
+          <div style="flex:1;min-width:0;">
+            <div class="opname-step-name" id="opnameStepName"></div>
+            <div class="opname-step-system" id="opnameStepSystem"></div>
+          </div>
+        </div>
+        <label style="margin-top:12px;">Stok Hasil Hitung Fisik</label>
+        <input type="number" inputmode="numeric" id="opnameStepInput" placeholder="Kosongkan kalau mau dilewati">
+        <div class="opname-step-diff" id="opnameStepDiff"></div>
+      </div>
+      <div class="row2">
+        <button class="btn secondary" id="btnOpnameBack">Kembali</button>
+        <button class="btn" id="btnOpnameNext">Lanjut</button>
+      </div>
+    </div>
+
+    <div id="opnamePreviewView" class="hidden">
+      <p style="font-size:12px;color:var(--ink-soft);margin-top:-4px;">Tap salah satu produk kalau mau koreksi ulang.</p>
+      <div id="opnameMissingWarning" class="hidden" style="font-size:12.5px;color:var(--red);background:#FBE4E0;border-radius:10px;padding:9px 11px;margin-bottom:10px;font-weight:600;"></div>
+      <div id="opnamePreviewList"></div>
+      <button class="btn" id="btnApplyOpname">Terapkan Hasil Opname</button>
+      <button class="btn secondary" id="btnOpnameBackToEdit">Kembali ke Pengisian</button>
+    </div>
+
+    <button class="btn secondary" id="btnCloseOpname">Batal Opname</button>
+  </div>
+</div>
+
+<div class="modal-bg" id="stockAddPickerModalBg">
+  <div class="modal">
+    <h3>Pilih Produk</h3>
+    <div class="search-box">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input id="stockAddSearch" placeholder="Cari produk...">
+    </div>
+    <div id="stockAddPickerList"></div>
+    <button class="btn secondary" id="btnCloseStockAddPicker">Batal</button>
+  </div>
+</div>
+
+<div class="modal-bg" id="stockAddModalBg">
+  <div class="modal">
+    <h3>Tambah Stok</h3>
+    <div class="card">
+      <div class="opname-step-head">
+        <div id="stockAddThumb"></div>
+        <div style="flex:1;min-width:0;">
+          <div class="opname-step-name" id="stockAddName"></div>
+          <div class="opname-step-system" id="stockAddCurrent"></div>
+        </div>
+      </div>
+      <label style="margin-top:12px;">Jumlah yang Ditambahkan</label>
+      <input type="number" inputmode="numeric" id="stockAddQty" placeholder="Contoh: 24">
+      <label>Harga Modal Batch Ini (Rp/pcs)</label>
+      <input type="number" inputmode="numeric" id="stockAddCost" placeholder="Contoh: 2900">
+      <div class="opname-step-diff" id="stockAddPreview"></div>
+    </div>
+    <button class="btn" id="btnConfirmAddStock">Tambahkan ke Stok</button>
+    <button class="btn secondary" id="btnCancelAddStock">Batal</button>
+  </div>
+</div>
+
+<div class="modal-bg" id="opnameStartModalBg">
+  <div class="modal">
+    <h3>Mulai Stock Opname</h3>
+    <label>Nama yang melakukan opname</label>
+    <input id="opnameStaffInput" placeholder="Contoh: Budi">
+    <button class="btn" id="btnOpnameStart">Mulai Opname</button>
+    <button class="btn secondary" id="btnOpnameStartCancel">Batal</button>
+  </div>
+</div>
+
+<div class="modal-bg" id="opnameHistoryModalBg">
+  <div class="modal">
+    <button class="modal-x" id="btnCloseOpnameHistory" aria-label="Tutup"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+    <h3 class="with-x">Riwayat Opname</h3>
+    <div id="opnameHistoryList"></div>
+  </div>
+</div>
+
+<div class="modal-bg" id="opnameDetailModalBg">
+  <div class="modal">
+    <button class="modal-x" id="btnCloseOpnameDetail" aria-label="Tutup"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+    <h3 class="with-x" id="opnameDetailTitle">Detail Opname</h3>
+    <div id="opnameDetailList"></div>
+  </div>
+</div>
+
+<div class="modal-bg" id="backupRestoreModalBg">
+  <div class="modal">
+    <button class="modal-x" id="btnCloseBackupRestore" aria-label="Tutup"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+    <h3 class="with-x">Backup & Restore</h3>
+    <label>Cadangkan Data</label>
+    <p style="font-size:12px;color:var(--ink-soft);margin-top:-4px;">Simpan file backup secara rutin biar data nggak hilang.</p>
+    <button class="btn" id="btnExport">Export Backup (.json)</button>
+    <label style="margin-top:14px;">Pulihkan dari Backup</label>
+    <p style="font-size:12px;color:var(--ink-soft);margin-top:-4px;">Pilih file backup, data saat ini akan ditimpa.</p>
+    <input type="file" id="fileImport" accept="application/json">
+  </div>
+</div>
+
+<div class="modal-bg" id="deleteDataModalBg">
+  <div class="modal">
+    <h3>Hapus Data</h3>
+    <p style="font-size:12.5px;color:var(--red);margin-top:-6px;font-weight:600;">Tindakan ini tidak bisa dibatalkan. Pastikan sudah backup kalau perlu.</p>
+    <label style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--ink);margin-bottom:8px;"><input type="checkbox" id="delTransaksi" style="width:auto;margin:0;"> Transaksi & Riwayat Penjualan</label>
+    <label style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--ink);margin-bottom:8px;"><input type="checkbox" id="delProduk" style="width:auto;margin:0;"> Produk & Stok</label>
+    <label style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--ink);margin-bottom:8px;"><input type="checkbox" id="delHutang" style="width:auto;margin:0;"> Pelanggan & Hutang</label>
+    <label style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--ink);margin-bottom:8px;"><input type="checkbox" id="delOpname" style="width:auto;margin:0;"> Riwayat Stock Opname</label>
+    <button class="btn danger" id="btnDeleteData">Hapus yang Dipilih</button>
+    <button class="btn secondary" id="btnCloseDeleteData">Batal</button>
+  </div>
+</div>
+
+<div class="modal-bg" id="laporanFilterModalBg">
+  <div class="modal">
+    <button class="modal-x" id="btnCloseLaporanFilter" aria-label="Tutup"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+    <h3 class="with-x">Filter</h3>
+
+    <div class="settings-group-label" style="margin-top:0;">Rentang Tanggal</div>
+    <div class="chips-wrap" id="filterDateChips">
+      <div class="chip active" data-period="today">Hari Ini</div>
+      <div class="chip" data-period="7d">7 Hari</div>
+      <div class="chip" data-period="30d">30 Hari</div>
+      <div class="chip" data-period="all">Semua</div>
+      <div class="chip" data-period="custom">Custom</div>
+    </div>
+    <div class="row2 hidden" id="filterCustomDates" style="margin-top:4px;">
+      <input type="date" id="laporanCustomStart">
+      <input type="date" id="laporanCustomEnd">
+    </div>
+
+    <div class="settings-group-label">Metode Bayar</div>
+    <div class="chips-wrap" id="filterPayChips">
+      <div class="chip active" data-pay="">Semua</div>
+      <div class="chip" data-pay="tunai">Tunai</div>
+      <div class="chip" data-pay="qris">QRIS</div>
+      <div class="chip" data-pay="hutang">Hutang</div>
+    </div>
+
+    <div class="row2" style="margin-top:16px;">
+      <button class="btn secondary" id="btnResetLaporanFilter">Hapus</button>
+      <button class="btn" id="btnApplyLaporanFilter">Terapkan</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-bg" id="categoryManageModalBg">
+  <div class="modal">
+    <button class="modal-x" id="btnCloseCategoryManage" aria-label="Tutup"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+    <h3 class="with-x">Kelola Kategori</h3>
+    <div class="row2">
+      <input id="newCategoryName" placeholder="Nama kategori baru">
+    </div>
+    <button class="btn" id="btnAddCategory">+ Tambah Kategori</button>
+    <div style="margin-top:12px;" id="categoryManageList"></div>
+  </div>
+</div>
+
+<div class="modal-bg" id="renameCategoryModalBg">
+  <div class="modal">
+    <h3>Ubah Nama Kategori</h3>
+    <input id="renameCategoryInput" placeholder="Nama kategori">
+    <button class="btn" id="btnSaveRenameCategory">Simpan</button>
+    <button class="btn secondary" id="btnCancelRenameCategory">Batal</button>
+  </div>
+</div>
+
+<div class="modal-bg" id="customerPickerModalBg">
+  <div class="modal">
+    <h3>Pilih Pelanggan</h3>
+    <div id="customerPickerList"></div>
+    <button class="btn secondary" id="btnCloseCustomerPicker">Batal</button>
+  </div>
+</div>
+
+<div class="modal-bg" id="categoryPickerModalBg">
+  <div class="modal">
+    <h3>Pilih Kategori</h3>
+    <div id="categoryPickerList"></div>
+    <button class="btn secondary" id="btnCloseCategoryPicker">Batal</button>
+  </div>
+</div>
+
+<div class="modal-bg" id="productModalBg">
+  <div class="modal">
+    <h3 id="productModalTitle">Tambah Produk</h3>
+    <input type="hidden" id="prodId">
+    <img id="photoPreview" class="photo-preview">
+    <label>Foto Produk (kamera/galeri)</label>
+    <input type="file" id="prodPhoto" accept="image/*">
+    <button class="btn secondary small" id="btnRemovePhoto" type="button" style="display:none;">Hapus Foto</button>
+    <label style="margin-top:8px;">Nama Produk</label>
+    <input id="prodName" placeholder="Contoh: Indomie Goreng">
+    <label>Kategori</label>
+    <input type="hidden" id="prodCategoryValue">
+    <div class="field-select placeholder" id="prodCategoryBtn">
+      <span id="prodCategoryLabel">— Pilih kategori —</span>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+    </div>
+    <p style="font-size:11.5px;color:var(--ink-soft);margin:-4px 0 8px;">Mau nambah kategori baru? Kelola di tab Stok.</p>
+    <div class="row2">
+      <div>
+        <label>Harga Modal (Rp)</label>
+        <input id="prodCostPrice" type="number" inputmode="numeric" placeholder="2500">
+      </div>
+      <div>
+        <label>Harga Jual (Rp)</label>
+        <input id="prodPrice" type="number" inputmode="numeric" placeholder="3000">
+      </div>
+    </div>
+    <label>Stok</label>
+    <input id="prodStock" type="number" inputmode="numeric" placeholder="20">
+    <button class="btn" id="btnSaveProduct">Simpan</button>
+    <button class="btn danger" id="btnDeleteProduct" style="display:none;">Hapus Produk</button>
+    <button class="btn secondary" id="btnCloseProduct">Batal</button>
+  </div>
+</div>
+
+<div class="modal-bg" id="addDebtModalBg">
+  <div class="modal">
+    <button class="modal-x" id="btnCloseAddDebt" aria-label="Tutup"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+    <h3 class="with-x">Tambah Hutang</h3>
+    <label>Pelanggan</label>
+    <input type="hidden" id="addDebtCustomerValue">
+    <div class="field-select placeholder" id="addDebtCustomerBtn">
+      <span id="addDebtCustomerLabel">— Pilih pelanggan —</span>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+    </div>
+    <input id="addDebtNewName" placeholder="Nama pelanggan baru" class="hidden">
+    <label>Jumlah Hutang (Rp)</label>
+    <input type="number" inputmode="numeric" id="addDebtAmount" placeholder="Contoh: 50000">
+    <label>Catatan (opsional)</label>
+    <input id="addDebtNote" placeholder="Contoh: Hutang lama sebelum pakai app">
+    <button class="btn" id="btnSaveAddDebt">Simpan Hutang</button>
+  </div>
+</div>
+
+<div class="modal-bg" id="debtModalBg">
+  <div class="modal">
+    <button class="modal-x" id="btnCloseDebt" aria-label="Tutup"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+    <h3 class="with-x" id="debtModalName">Nama Pelanggan</h3>
+    <div class="sum-label">Sisa Hutang</div>
+    <div class="sum-num" id="debtModalBalance">Rp 0</div>
+    <div class="card" style="margin-top:12px;max-height:200px;overflow-y:auto;" id="debtHistoryBox"></div>
+    <label style="margin-top:10px;">Catat Pembayaran (Cicilan)</label>
+    <input id="debtPayAmount" type="number" inputmode="numeric" placeholder="Jumlah bayar">
+    <button class="btn" id="btnAddPayment">Simpan Pembayaran</button>
+  </div>
+</div>
+
+<div class="modal-bg" id="confirmModalBg">
+  <div class="modal">
+    <h3 id="confirmTitle">Konfirmasi</h3>
+    <p id="confirmMsg" style="font-size:13.5px;color:var(--ink-soft);margin-top:-6px;"></p>
+    <button class="btn danger" id="confirmYesBtn">Ya, lanjutkan</button>
+    <button class="btn secondary" id="confirmNoBtn">Batal</button>
+  </div>
+</div>
+
+<div class="fab-stok-wrap" id="fabStokWrap">
+  <div class="fab-mini-row" id="actOpname">
+    <span class="fab-mini-label">Stock Opname</span>
+    <button class="fab-mini-btn" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></button>
+  </div>
+  <div class="fab-mini-row" id="actAddStock">
+    <span class="fab-mini-label">Tambah Stok</span>
+    <button class="fab-mini-btn" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8l-9-5-9 5 9 5 9-5z"/><path d="M3 8v8l9 5 9-5V8"/><path d="M12 13v8"/></svg></button>
+  </div>
+  <div class="fab-mini-row" id="actAddProduct">
+    <span class="fab-mini-label">Tambah Produk Baru</span>
+    <button class="fab-mini-btn" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></button>
+  </div>
+  <button class="fab-stok" id="fabStok" aria-label="Tambah">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+  </button>
+</div>
+
+<button class="fab-stok" id="fabHutang" aria-label="Tambah Hutang" style="position:fixed;right:16px;bottom:calc(70px + env(safe-area-inset-bottom,0px));display:none;">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+</button>
+
+<button class="fab-cart" id="fabCart">
+  <span style="display:flex;align-items:center;"><span class="badge" id="fabBadge">0</span>
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:6px;"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6"/></svg>
+  Lihat Keranjang</span>
+  <span id="fabTotal">Rp 0</span>
+</button>
+
+<div class="toast" id="toast"></div>
+
+<script src="script.js"></script>
+</body>
+</html>
