@@ -1,0 +1,13 @@
+{
+  "name": "Warung Azdifa 1",
+  "short_name": "Warung Azdifa",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#E07A2E",
+  "theme_color": "#E07A2E",
+  "icons": [
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icon-512.png", "sizes": "512×512", "type": "image/png", "purpose": "any" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
